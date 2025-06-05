@@ -156,7 +156,7 @@ lb config noauto \
 	--distribution "$dist" \
 	--debian-installer-distribution "$dist" \
 	--archive-areas "main contrib non-free non-free-firmware" \
-	--debootstrap-options "--include=apt-transport-https,ca-certificates,openssl --keyring=$debian_keyring" \
+	--debootstrap-options "--no-check-gpg --include=apt-transport-https,ca-certificates,openssl --keyring=$debian_keyring" \
 	--keyring-packages "debian-archive-keyring debian-ports-archive-keyring" \
 	--apt-recommends false \
 	--apt-options "-o DPkg::Options::=\"--force-confnew\" -y" \
