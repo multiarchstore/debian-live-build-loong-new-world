@@ -1,3 +1,3 @@
-# live-build configuration for Lingmo ISO images
+# live-build configuration for Debian loong64 images
 
-Have a look at [Live Build a Custom Lingmo ISO](https://www.lingmo.org/docs/development/live-build-a-custom-lingmo-iso/) for explanations on how to use this repository.
+Have a look at [Debian Live Manual](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) for explanations on how to use this repository.
