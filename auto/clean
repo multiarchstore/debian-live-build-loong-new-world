@@ -2,7 +2,7 @@
 
 lb clean noauto "$@"
 
-rm -fv config
+rm -rfv config
 
 if [ -e config/hooks/ ]; then
 	find config/hooks/ -type l \

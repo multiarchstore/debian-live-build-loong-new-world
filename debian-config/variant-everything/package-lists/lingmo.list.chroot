@@ -24,42 +24,19 @@ zsh-syntax-highlighting
 htop
 
 # Graphical desktops
-# lingmo-workspace-base
-# lingmo-plymouth
-lingmoui3
-liblingmo
-lingmo-core
-lingmo-filemanager
-lingmo-settings
-lingmo-statusbar
-lingmo-wallpapers
-lingmo-dock
-lingmo-launcher
-lingmo-systemicons
-lingmo-kwin-plugins
-
-konsole
-sddm
-xorg
-kwin-x11
+kde-standard
 
 # Live configs
 live-boot
-# lingmo-grub-config
-# lingmo-live
-gparted
-dirmngr
-kwin-x11
-kscreen
-sound-theme-freedesktop
-vim
+calamares
+calamares-settings-debian
 
 plymouth
 
 
 # Lingmo applications
-firefox-esr
-firefox-esr-l10n-zh-cn
+# firefox-esr
+# firefox-esr-l10n-zh-cn
 
 # Input Methods
 fcitx5

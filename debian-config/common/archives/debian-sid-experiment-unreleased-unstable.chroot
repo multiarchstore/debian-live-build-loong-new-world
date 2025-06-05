@@ -1,4 +1,0 @@
-deb https://mirrors.aliyun.com/debian-ports/ sid main contrib non-free non-free-firmware
-deb https://mirrors.aliyun.com/debian-ports/ experimental main contrib non-free non-free-firmware
-deb https://mirrors.aliyun.com/debian-ports/ unreleased main contrib non-free non-free-firmware
-deb https://mirrors.aliyun.com/debian-ports/ unstable main contrib non-free non-free-firmware

@@ -36,7 +36,10 @@ firmware-misc-nonfree
 firmware-sof-signed
 firmware-ti-connectivity
 firmware-zd1211
+
+#if ARCHITECTURES i386 amd64
 broadcom-sta-dkms
+#endif
 
 # wifi
 wireless-tools
