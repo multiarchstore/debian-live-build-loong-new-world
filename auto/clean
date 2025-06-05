@@ -2,12 +2,7 @@
 
 lb clean noauto "$@"
 
-rm -fv config/binary \
-	config/bootstrap \
-	config/chroot \
-	config/common \
-	config/source \
-	config/package-lists/live.list.chroot
+rm -fv config
 
 if [ -e config/hooks/ ]; then
 	find config/hooks/ -type l \
