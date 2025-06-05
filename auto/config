@@ -88,6 +88,7 @@ if [ ! -e ${LIVE_BUILD:-/usr/share/live/build}/data/debian-cd/$dist ]; then
 fi
 
 # Define options that vary across architectures
+debian_keyring="/usr/share/keyrings/debian-archive-keyring.gpg"
 case "$arch" in
     amd64)
 	# lb_opts="$lb_opts --debian-installer live"
@@ -111,6 +112,7 @@ case "$arch" in
 		public_debian_mirror=http://deb.debian.org/debian-ports
 		debian_mirror=http://deb.debian.org/debian-ports
 	fi
+	debian_keyring="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
 	;;
     *)
 	echo "WARNING: configuration not tested on arch $arch" >&2
@@ -154,7 +156,7 @@ lb config noauto \
 	--distribution "$dist" \
 	--debian-installer-distribution "$dist" \
 	--archive-areas "main contrib non-free non-free-firmware" \
-	--debootstrap-options "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg" \
+	--debootstrap-options "--keyring=$debian_keyring" \
 	--keyring-packages "debian-archive-keyring debian-ports-archive-keyring" \
 	--apt-recommends false \
 	--apt-options "-o DPkg::Options::=\"--force-confnew\" -y" \
