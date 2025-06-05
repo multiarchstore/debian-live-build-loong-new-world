@@ -155,7 +155,7 @@ lb config noauto \
 	--debian-installer-distribution "$dist" \
 	--archive-areas "main contrib non-free non-free-firmware" \
 	--debootstrap-options "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg" \
-	--keyring-packages "debian-archive-keyring" \
+	--keyring-packages "debian-archive-keyring debian-ports-archive-keyring" \
 	--apt-recommends false \
 	--apt-options "-o DPkg::Options::=\"--force-confnew\" -y" \
 	--updates true \

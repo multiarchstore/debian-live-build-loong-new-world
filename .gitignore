@@ -36,3 +36,4 @@ simple-cdd/profiles/lingmo.downloads
 .stage
 prepare.log
 .vscode/settings.json
+/debian-config/common/packages.chroot/
