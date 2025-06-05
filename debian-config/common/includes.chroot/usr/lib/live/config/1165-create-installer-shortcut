@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Create debian user if not exist
+if ! id -u debian >/dev/null 2>&1; then
+    useradd -m -G sudo,audio,cdrom,dip,floppy,video,plugdev,netdev -s /bin/bash debian
+    # Change password to live
+    echo "debian:live" | chpasswd
+fi
+
+bash /usr/bin/add-calamares-desktop-icon
+
+# Auto start /usr/share/applications/calamares-install-debian.desktop
+mkdir -p /home/debian/.config/autostart
+cp /usr/share/applications/calamares-install-debian.desktop /home/debian/.config/autostart
+chmod 755 /home/debian/.config/autostart/calamares-install-debian.desktop
+
+# Fix the permision of ~/.config dir
+chown -R debian /home/debian

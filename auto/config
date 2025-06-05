@@ -12,27 +12,27 @@ country_code=$(echo "$response" | jq -r '.location.countryCode')
 # You can put a local mirror here if you want (or you can set
 # it in .mirror)
 if [ -e .mirror ]; then
-    lingmo_mirror=$(cat .mirror)
+    debian_mirror=$(cat .mirror)
 else
 	if [ "$country_code" == "CN" ]; then
-		lingmo_mirror=http://mirrors.bfsu.edu.cn/debian
+		debian_mirror=http://mirrors4.bfsu.edu.cn/debian
 	else
-	    lingmo_mirror=http://ftp.debian.org/debian
+	    debian_mirror=http://ftp.debian.org/debian
 	fi
 fi
 
 ### DO NOT EDIT THE REST OF THIS FILE ###
 
 if [ "$country_code" == "CN" ]; then
-	public_lingmo_mirror=http://mirrors.bfsu.edu.cn/debian
+	public_debian_mirror=http://mirrors4.bfsu.edu.cn/debian
 else
-	public_lingmo_mirror=http://ftp.debian.org/debian
+	public_debian_mirror=http://ftp.debian.org/debian
 fi
 
 # Detect target architecture and filter args
 temp=""
 arch=$(dpkg --print-architecture)
-dist="trixie"
+dist="sid"
 lb_opts=""
 while [ $# -gt 0 ]; do
    	arg="$1"
@@ -69,14 +69,14 @@ done
 eval set -- "$temp"
 
 # Resolve release name
-dist=$(wget -q -O- $lingmo_mirror/dists/$dist/Release | awk '/^Codename:/ {print $2}')
+dist=$(wget -q -O- $debian_mirror/dists/$dist/Release | awk '/^Codename:/ {print $2}')
 if [ -z "$dist" ]; then
 	echo "ERROR: Build release could not be resolved"
 	exit 1
 fi
 
 # live-build doesn't work if --parent-debian-distribution is unknown of
-# debian-cd => we have to put a symlink so that it deals with lingmo like sid
+# debian-cd => we have to put a symlink so that it deals with debian like sid
 if [ ! -e ${LIVE_BUILD:-/usr/share/live/build}/data/debian-cd/$dist ]; then
 	if [ -w ${LIVE_BUILD:-/usr/share/live/build}/data/debian-cd ]; then
 		ln -sf sid ${LIVE_BUILD:-/usr/share/live/build}/data/debian-cd/$dist
@@ -102,6 +102,16 @@ case "$arch" in
     armel|armhf)
 	lb_opts="$lb_opts --binary-images hdd --binary-filesystem ext4 --chroot-filesystem none"
     ;;
+	loong64)
+	lb_opts="$lb_opts --bootloaders grub-efi --uefi-secure-boot disable"
+	if [ "$country_code" == "CN" ]; then
+		public_debian_mirror=https://mirrors.aliyun.com/debian-ports
+		debian_mirror=https://mirrors.aliyun.com/debian-ports
+	else
+		public_debian_mirror=http://deb.debian.org/debian-ports
+		debian_mirror=http://deb.debian.org/debian-ports
+	fi
+	;;
     *)
 	echo "WARNING: configuration not tested on arch $arch" >&2
     ;;
@@ -109,34 +119,34 @@ esac
 
 # Define options that vary across distributions
 case "$dist" in
-    lingmo-last-snapshot)
-	# We don't want lingmo-last-snapshot to end up in the image, it
-	# should be replaced with lingmo-rolling
-	lb_opts="$lb_opts --distribution-binary lingmo-rolling"
-	lb_opts="$lb_opts --debootstrap-script /usr/share/debootstrap/scripts/lingmo-rolling"
+    debian-last-snapshot)
+	# We don't want debian-last-snapshot to end up in the image, it
+	# should be replaced with debian-rolling
+	lb_opts="$lb_opts --distribution-binary sid"
+	lb_opts="$lb_opts --debootstrap-script /usr/share/debootstrap/scripts/sid"
     ;;
 esac
 
 # Setup configuration files from variant and options
 
 # Drop all files that a former run might have put into place
-for file in $(cd lingmo-config && find ./common ./variant-* -type f); do
+for file in $(cd debian-config && find ./common ./variant-* -type f); do
     file=${file#./*/}
     rm -fv config/$file
 done
-rm -fv config/archives/lingmo-proposed-updates.list.*
+rm -fv config/archives/debian-proposed-updates.list.*
 
-# Copy over all files from official lingmo configuration
-cp -rT lingmo-config/common config
-[ ! -d lingmo-config/variant-$variant ] || cp -rTL lingmo-config/variant-$variant config
+# Copy over all files from official debian configuration
+cp -rT debian-config/common config
+[ ! -d debian-config/variant-$variant ] || cp -rTL debian-config/variant-$variant config
 
 if [ -n "$enable_pu" ]; then
 	echo "Actually no proposed-updates in Debian, the enable_pu has no effects"
 	# mkdir -p config/archives
-	# echo "deb $lingmo_mirror $dist-proposed-updates main contrib non-free non-free-firmware" \
-	# 	> config/archives/lingmo-proposed-updates.list.chroot
-	# echo "deb $public_lingmo_mirror $dist-proposed-updates main contrib non-free non-free-firmware" \
-	# 	> config/archives/lingmo-proposed-updates.list.binary
+	# echo "deb $debian_mirror $dist-proposed-updates main contrib non-free non-free-firmware" \
+	# 	> config/archives/debian-proposed-updates.list.chroot
+	# echo "deb $public_debian_mirror $dist-proposed-updates main contrib non-free non-free-firmware" \
+	# 	> config/archives/debian-proposed-updates.list.binary
 fi
 
 lb config noauto \
@@ -155,9 +165,9 @@ lb config noauto \
 	--firmware-chroot true \
 	--uefi-secure-boot enable \
     --initramfs live-boot \
-	--mirror-bootstrap "$lingmo_mirror" \
-	--mirror-debian-installer "$lingmo_mirror" \
-	--mirror-binary "$public_lingmo_mirror" \
+	--mirror-bootstrap "$debian_mirror" \
+	--mirror-debian-installer "$debian_mirror" \
+	--mirror-binary "$public_debian_mirror" \
 	--iso-application "Lingmo Linux" \
 	--iso-publisher "Lingmo" \
 	--iso-volume "Lingmo Live" \

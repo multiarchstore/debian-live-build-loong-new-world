@@ -6,9 +6,9 @@ set -e
 set -o pipefail # Bashism
 
 # Lingmo's default values
-LINGMO_DIST="trixie"
-LINGMO_VERSION=""
-LINGMO_VARIANT="default"
+DEBIAN_DIST="sid"
+DEBIAN_VERSION="$(date +%Y%m%d)"
+DEBIAN_VARIANT="default"
 IMAGE_TYPE="live"
 TARGET_DIR="$(dirname $0)/images"
 TARGET_SUBDIR=""
@@ -29,21 +29,21 @@ image_name() {
 }
 
 live_image_name() {
-	case "$LINGMO_ARCH" in
+	case "$DEBIAN_ARCH" in
 	i386 | amd64 | arm64)
-		echo "live-image-$LINGMO_ARCH.hybrid.iso"
+		echo "live-image-$DEBIAN_ARCH.hybrid.iso"
 		;;
 	armel | armhf)
-		echo "live-image-$LINGMO_ARCH.img"
+		echo "live-image-$DEBIAN_ARCH.img"
 		;;
 	esac
 }
 
 installer_image_name() {
-	if [ "$LINGMO_VARIANT" = "netinst" ]; then
-		echo "simple-cdd/images/lingmo-$LINGMO_VERSION-$LINGMO_ARCH-NETINST-1.iso"
+	if [ "$DEBIAN_VARIANT" = "netinst" ]; then
+		echo "simple-cdd/images/debian-$DEBIAN_VERSION-$DEBIAN_ARCH-NETINST-1.iso"
 	else
-		echo "simple-cdd/images/lingmo-$LINGMO_VERSION-$LINGMO_ARCH-BD-1.iso"
+		echo "simple-cdd/images/debian-$DEBIAN_VERSION-$DEBIAN_ARCH-BD-1.iso"
 	fi
 }
 
@@ -56,16 +56,16 @@ target_image_name() {
 		IMAGE_EXT="img"
 	fi
 	if [ "$IMAGE_TYPE" = "live" ]; then
-		if [ "$LINGMO_VARIANT" = "default" ]; then
-			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}lingmo-linux-$LINGMO_VERSION-live-$LINGMO_ARCH.$IMAGE_EXT"
+		if [ "$DEBIAN_VARIANT" = "default" ]; then
+			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}debian-linux-$DEBIAN_VERSION-live-$DEBIAN_ARCH.$IMAGE_EXT"
 		else
-			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}lingmo-linux-$LINGMO_VERSION-live-$LINGMO_VARIANT-$LINGMO_ARCH.$IMAGE_EXT"
+			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}debian-linux-$DEBIAN_VERSION-live-$DEBIAN_VARIANT-$DEBIAN_ARCH.$IMAGE_EXT"
 		fi
 	else
-		if [ "$LINGMO_VARIANT" = "default" ]; then
-			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}lingmo-linux-$LINGMO_VERSION-installer-$LINGMO_ARCH.$IMAGE_EXT"
+		if [ "$DEBIAN_VARIANT" = "default" ]; then
+			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}debian-linux-$DEBIAN_VERSION-installer-$DEBIAN_ARCH.$IMAGE_EXT"
 		else
-			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}lingmo-linux-$LINGMO_VERSION-installer-$LINGMO_VARIANT-$LINGMO_ARCH.$IMAGE_EXT"
+			echo "${TARGET_SUBDIR:+$TARGET_SUBDIR/}debian-linux-$DEBIAN_VERSION-installer-$DEBIAN_VARIANT-$DEBIAN_ARCH.$IMAGE_EXT"
 		fi
 	fi
 }
@@ -77,8 +77,8 @@ target_build_log() {
 
 default_version() {
 	case "$1" in
-	lingmo-*)
-		echo "${1#lingmo-}"
+	debian-*)
+		echo "${1#debian-}"
 		;;
 	*)
 		echo "$1"
@@ -87,7 +87,7 @@ default_version() {
 }
 
 failure() {
-	echo "Build of $LINGMO_DIST/$LINGMO_VARIANT/$LINGMO_ARCH $IMAGE_TYPE image failed (see build.log for details)" >&2
+	echo "Build of $DEBIAN_DIST/$DEBIAN_VARIANT/$DEBIAN_ARCH $IMAGE_TYPE image failed (see build.log for details)" >&2
 	echo "Log: $BUILD_LOG" >&2
 	exit 2
 }
@@ -136,7 +136,7 @@ print_help() {
 		echo "  --${x}"
 	done
 	echo
-	echo "More information: https://www.lingmo.org/docs/development/live-build-a-custom-lingmo-iso/"
+	echo "More information: https://www.debian.org/docs/development/live-build-a-custom-debian-iso/"
 	exit 0
 }
 
@@ -154,7 +154,7 @@ eval set -- "$temp"
 while true; do
 	case "$1" in
 	-d | --distribution)
-		LINGMO_DIST="$2"
+		DEBIAN_DIST="$2"
 		shift 2
 		;;
 	-p | --proposed-updates)
@@ -162,7 +162,7 @@ while true; do
 		shift 1
 		;;
 	-a | --arch)
-		LINGMO_ARCH="$2"
+		DEBIAN_ARCH="$2"
 		shift 2
 		;;
 	-v | --verbose)
@@ -184,11 +184,11 @@ while true; do
 		shift 1
 		;;
 	--variant)
-		LINGMO_VARIANT="$2"
+		DEBIAN_VARIANT="$2"
 		shift 2
 		;;
 	--version)
-		LINGMO_VERSION="$2"
+		DEBIAN_VERSION="$2"
 		shift 2
 		;;
 	--subdir)
@@ -219,41 +219,41 @@ while true; do
 done
 
 # Set default values
-LINGMO_ARCH=${LINGMO_ARCH:-$HOST_ARCH}
-if [ "$LINGMO_ARCH" = "x64" ]; then
-	LINGMO_ARCH="amd64"
-elif [ "$LINGMO_ARCH" = "x86" ]; then
-	LINGMO_ARCH="i386"
+DEBIAN_ARCH=${DEBIAN_ARCH:-$HOST_ARCH}
+if [ "$DEBIAN_ARCH" = "x64" ]; then
+	DEBIAN_ARCH="amd64"
+elif [ "$DEBIAN_ARCH" = "x86" ]; then
+	DEBIAN_ARCH="i386"
 fi
-debug "LINGMO_ARCH: $LINGMO_ARCH"
+debug "DEBIAN_ARCH: $DEBIAN_ARCH"
 
-if [ -z "$LINGMO_VERSION" ]; then
-	LINGMO_VERSION="$(default_version $LINGMO_DIST)"
+if [ -z "$DEBIAN_VERSION" ]; then
+	DEBIAN_VERSION="$(default_version $DEBIAN_DIST)"
 fi
-debug "LINGMO_VERSION: $LINGMO_VERSION"
+debug "DEBIAN_VERSION: $DEBIAN_VERSION"
 
 # Check parameters
 debug "HOST_ARCH: $HOST_ARCH"
-if [ "$HOST_ARCH" != "$LINGMO_ARCH" ] && [ "$IMAGE_TYPE" != "installer" ]; then
-	case "$HOST_ARCH/$LINGMO_ARCH" in
+if [ "$HOST_ARCH" != "$DEBIAN_ARCH" ] && [ "$IMAGE_TYPE" != "installer" ]; then
+	case "$HOST_ARCH/$DEBIAN_ARCH" in
 	amd64/i386 | i386/amd64) ;;
 	*)
-		echo "Can't build $LINGMO_ARCH image on $HOST_ARCH system." >&2
+		echo "Can't build $DEBIAN_ARCH image on $HOST_ARCH system." >&2
 		exit 1
 		;;
 	esac
 fi
 
 # Build parameters for lb config
-LINGMO_CONFIG_OPTS="--distribution $LINGMO_DIST -- --variant $LINGMO_VARIANT"
-CODENAME=$LINGMO_DIST # for simple-cdd/debian-cd
+DEBIAN_CONFIG_OPTS="--distribution $DEBIAN_DIST -- --variant $DEBIAN_VARIANT"
+CODENAME=$DEBIAN_DIST # for simple-cdd/debian-cd
 if [ -n "$OPT_pu" ]; then
-	LINGMO_CONFIG_OPTS="$LINGMO_CONFIG_OPTS --proposed-updates"
-	LINGMO_DIST="$LINGMO_DIST+pu"
+	DEBIAN_CONFIG_OPTS="$DEBIAN_CONFIG_OPTS --proposed-updates"
+	DEBIAN_DIST="$DEBIAN_DIST+pu"
 fi
-debug "LINGMO_CONFIG_OPTS: $LINGMO_CONFIG_OPTS"
+debug "DEBIAN_CONFIG_OPTS: $DEBIAN_CONFIG_OPTS"
 debug "CODENAME: $CODENAME"
-debug "LINGMO_DIST: $LINGMO_DIST"
+debug "DEBIAN_DIST: $DEBIAN_DIST"
 
 # Set sane PATH (cron seems to lack /sbin/ dirs)
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -270,8 +270,8 @@ fi
 debug "IMAGE_TYPE: $IMAGE_TYPE"
 case "$IMAGE_TYPE" in
 live)
-	if [ ! -d "$(dirname $0)/lingmo-config/variant-$LINGMO_VARIANT" ]; then
-		echo "ERROR: Unknown variant of Lingmo live configuration: $LINGMO_VARIANT" >&2
+	if [ ! -d "$(dirname $0)/debian-config/variant-$DEBIAN_VARIANT" ]; then
+		echo "ERROR: Unknown variant of Lingmo live configuration: $DEBIAN_VARIANT" >&2
 	fi
 
 	ver_live_build=$(dpkg-query -f '${Version}' -W live-build)
@@ -289,8 +289,8 @@ live)
 	debug "ver_debootstrap: $ver_debootstrap"
 	;;
 installer)
-	if [ ! -d "$(dirname $0)/lingmo-config/installer-$LINGMO_VARIANT" ]; then
-		echo "ERROR: Unknown variant of Lingmo installer configuration: $LINGMO_VARIANT" >&2
+	if [ ! -d "$(dirname $0)/debian-config/installer-$DEBIAN_VARIANT" ]; then
+		echo "ERROR: Unknown variant of Lingmo installer configuration: $DEBIAN_VARIANT" >&2
 	fi
 
 	ver_debian_cd=$(dpkg-query -f '${Version}' -W debian-cd)
@@ -324,12 +324,12 @@ else
 fi
 debug "SUDO: $SUDO"
 
-IMAGE_NAME="$(image_name $LINGMO_ARCH)"
+IMAGE_NAME="$(image_name $DEBIAN_ARCH)"
 debug "IMAGE_NAME: $IMAGE_NAME"
 
 debug "ACTION: $ACTION"
 if [ "$ACTION" = "get-image-path" ]; then
-	echo $(target_image_name $LINGMO_ARCH)
+	echo $(target_image_name $DEBIAN_ARCH)
 	exit 0
 fi
 
@@ -349,7 +349,7 @@ set +e
 case "$IMAGE_TYPE" in
 live)
 	debug "Stage 1/2 - Config"
-	run_and_log lb config -a $LINGMO_ARCH $LINGMO_CONFIG_OPTS "$@"
+	run_and_log lb config -a $DEBIAN_ARCH $DEBIAN_CONFIG_OPTS "$@"
 	[ $? -eq 0 ] || failure
 
 	debug "Stage 2/2 - Build"
@@ -361,27 +361,27 @@ live)
 installer)
 	# Override some debian-cd environment variables
 	export BASEDIR="$(pwd)/simple-cdd/debian-cd"
-	export ARCHES=$LINGMO_ARCH
-	export ARCH=$LINGMO_ARCH
-	export DEBVERSION=$LINGMO_VERSION
+	export ARCHES=$DEBIAN_ARCH
+	export ARCH=$DEBIAN_ARCH
+	export DEBVERSION=$DEBIAN_VERSION
 	debug "BASEDIR: $BASEDIR"
 	debug "ARCHES: $ARCHES"
 	debug "ARCH: $ARCH"
 	debug "DEBVERSION: $DEBVERSION"
 
-	if [ "$LINGMO_VARIANT" = "netinst" ]; then
+	if [ "$DEBIAN_VARIANT" = "netinst" ]; then
 		export DISKTYPE="NETINST"
-		profiles="lingmo"
-		auto_profiles="lingmo"
-	elif [ "$LINGMO_VARIANT" = "purple" ]; then
+		profiles="debian"
+		auto_profiles="debian"
+	elif [ "$DEBIAN_VARIANT" = "purple" ]; then
 		export DISKTYPE="BD"
-		profiles="lingmo lingmo-purple offline"
-		auto_profiles="lingmo lingmo-purple offline"
+		profiles="debian debian-purple offline"
+		auto_profiles="debian debian-purple offline"
 		export KERNEL_PARAMS="debian-installer/theme=Clearlooks-Purple"
 	else # plain installer
 		export DISKTYPE="BD"
-		profiles="lingmo offline"
-		auto_profiles="lingmo offline"
+		profiles="debian offline"
+		auto_profiles="debian offline"
 	fi
 	debug "DISKTYPE: $DISKTYPE"
 	debug "profiles: $profiles"
@@ -389,14 +389,14 @@ installer)
 	[ -v KERNEL_PARAMS ] && debug "KERNEL_PARAMS: $KERNEL_PARAMS"
 
 	if [ -e .mirror ]; then
-		lingmo_mirror=$(cat .mirror)
+		debian_mirror=$(cat .mirror)
 	else
-		lingmo_mirror=http://debian-archive.trafficmanager.net/debian
+		debian_mirror=http://debian-archive.trafficmanager.net/debian
 	fi
-	if ! echo "$lingmo_mirror" | grep -q '/$'; then
-		lingmo_mirror="$lingmo_mirror/"
+	if ! echo "$debian_mirror" | grep -q '/$'; then
+		debian_mirror="$debian_mirror/"
 	fi
-	debug "lingmo_mirror: $lingmo_mirror"
+	debug "debian_mirror: $debian_mirror"
 
 	debug "Stage 1/2 - File(s)"
 	# Setup custom debian-cd to make our changes
@@ -405,7 +405,7 @@ installer)
 
 	# Use the same grub theme as in the live images
 	# Until debian-cd is smart enough: http://bugs.debian.org/1003927
-	cp -f lingmo-config/common/bootloaders/grub-pc/grub-theme.in simple-cdd/debian-cd/data/$CODENAME/grub-theme.in
+	cp -f debian-config/common/bootloaders/grub-pc/grub-theme.in simple-cdd/debian-cd/data/$CODENAME/grub-theme.in
 
 	# Keep 686-pae udebs as we changed the default from 686
 	# to 686-pae in the debian-installer images
@@ -413,20 +413,20 @@ installer)
 		simple-cdd/debian-cd/data/$CODENAME/exclude-udebs-i386
 	[ $? -eq 0 ] || failure
 
-	# Configure the lingmo profile with the packages we want
-	grep -v '^#' lingmo-config/installer-$LINGMO_VARIANT/packages \
-		>simple-cdd/profiles/lingmo.downloads
+	# Configure the debian profile with the packages we want
+	grep -v '^#' debian-config/installer-$DEBIAN_VARIANT/packages \
+		>simple-cdd/profiles/debian.downloads
 	[ $? -eq 0 ] || failure
 
 	# Tasksel is required in the mirror for debian-cd
-	echo tasksel >>simple-cdd/profiles/lingmo.downloads
+	echo tasksel >>simple-cdd/profiles/debian.downloads
 	[ $? -eq 0 ] || failure
 
 	# Grub is the only supported bootloader on arm64
 	# so ensure it's on the iso for arm64.
-	if [ "$LINGMO_ARCH" = "arm64" ]; then
+	if [ "$DEBIAN_ARCH" = "arm64" ]; then
 		debug "arm64 GRUB"
-		echo "grub-efi-arm64" >>simple-cdd/profiles/lingmo.downloads
+		echo "grub-efi-arm64" >>simple-cdd/profiles/debian.downloads
 		[ $? -eq 0 ] || failure
 	fi
 
@@ -439,7 +439,7 @@ installer)
 		--force-root \
 		--conf simple-cdd.conf \
 		--dist $CODENAME \
-		--debian-mirror $lingmo_mirror \
+		--debian-mirror $debian_mirror \
 		--profiles "$profiles" \
 		--auto-profiles "$auto_profiles"
 	res=$?
@@ -454,7 +454,7 @@ esac
 set -e
 
 debug "Moving files"
-run_and_log mv -f $IMAGE_NAME $TARGET_DIR/$(target_image_name $LINGMO_ARCH)
-run_and_log mv -f "$BUILD_LOG" $TARGET_DIR/$(target_build_log $LINGMO_ARCH)
+run_and_log mv -f $IMAGE_NAME $TARGET_DIR/$(target_image_name $DEBIAN_ARCH)
+run_and_log mv -f "$BUILD_LOG" $TARGET_DIR/$(target_build_log $DEBIAN_ARCH)
 
-run_and_log echo -e "\n***\nGENERATED LINGMO IMAGE: $TARGET_DIR/$(target_image_name $LINGMO_ARCH)\n***"
+run_and_log echo -e "\n***\nGENERATED DEBIAN IMAGE: $TARGET_DIR/$(target_image_name $DEBIAN_ARCH)\n***"
