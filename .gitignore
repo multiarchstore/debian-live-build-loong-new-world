@@ -1,14 +1,14 @@
 # Directories
-.build/*
-binary/*
-binary.*/*
-cache/*
-chroot/*
-config/*
-images
-local/*
-simple-cdd/images/*
-simple-cdd/tmp/*
+/.build/*
+/binary/*
+/binary.*/*
+/cache/*
+/chroot/*
+/config/*
+/images
+/local/*
+/simple-cdd/images/*
+/simple-cdd/tmp/*
 
 # Files
 .mirror

@@ -72,8 +72,8 @@ sox
 
 #Section: Webcam
 #Description: cheese
-cheese
-gnome-video-effects
+#cheese
+#gnome-video-effects
 #Alt: guvcview
 #Alt: gnome-video-effects-frei0r
 #Alt: v4l2loopback-dkms
@@ -88,7 +88,7 @@ gnome-video-effects
 #Section: Screen recording/screencasting
 #Description: vokoscreen-ng
 #Description: obs-studio
-vokoscreen-ng
+#vokoscreen-ng
 #Alt: obs-studio
 #Alt: kazam
 #Alt: byzanz
