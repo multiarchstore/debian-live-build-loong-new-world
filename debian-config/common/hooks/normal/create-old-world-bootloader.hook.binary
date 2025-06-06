@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Copy the bootloader for the old world
+
+cp -rv EFI/bootloongarch64.efi EFI/bootloongarch.efi
