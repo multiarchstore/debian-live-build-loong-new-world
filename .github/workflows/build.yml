@@ -1,21 +1,18 @@
-name: Daily Build
+name: Build Debian loong64 live cd
 
 permissions: write-all
 
 on:
   push:
-    branches: [ "master", "debian-12" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "master", "debian-12" ]
+    branches: [ "master" ]
   schedule:
-    - cron: "59 18 * * *"
+    - cron: "59 18 * * 0"
   workflow_dispatch:
 jobs:
   debian:
-    strategy:
-        matrix:
-          arch: ['amd64']
-    name: Build ${{ matrix.arch }} iso
+    name: Build loong64 iso
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -27,43 +24,38 @@ jobs:
           remove-dotnet: 'true'
           remove-android: 'true'
 
-      - uses: actions/checkout@v4
-
-      - name: Set up amd64 Debian container
-        uses: addnab/docker-run-action@v3
-        if: ${{ matrix.arch == 'amd64' }}
+      - name: Checkout sources
+        uses: actions/checkout@v4
         with:
-          image: docker.io/library/debian:trixie-slim
-          options: --privileged -v ${{ github.workspace }}:/work
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up loong64 Debian container
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/loong64/debian:trixie
+          options: --platform linux/loong64 --privileged -v ${{ github.workspace }}:/work
           run: |
             cd /work
-            apt update; apt install sudo git fakeroot live-build debootstrap debian-cd simple-cdd xorriso squashfs-tools mtools curl jq -y
+            apt update; apt install sudo git fakeroot debootstrap debian-cd simple-cdd xorriso squashfs-tools mtools curl jq -y
             git config --global --add safe.directory /work
-            export LINGMO_ARCH=${{ matrix.arch }}
             export DEBIAN_FRONTEND=noninteractive
+            curl -fsSL https://salsa.debian.org/-/project/100777/uploads/d513b2c78c2412c7bfd33651eaced2d7/live-build_20250605_all.deb -o live-build.deb
+            apt install -y ./live-build.deb
+            rm live-build.deb
             bash -i ./build.sh
             
-      - name: Set up arm64 Debian container
-        uses: uraimo/run-on-arch-action@v2
-        if: ${{ matrix.arch == 'arm64' }}
-        with:
-          arch: "aarch64"
-          distro: "bookworm"
-          # Mount the artifacts directory as /artifacts in the container
-          dockerRunArgs: |
-            --privileged -v ${{ github.workspace }}:/work
-          run: |
-            cd /work
-            apt update; apt install sudo git fakeroot live-build debootstrap debian-cd simple-cdd xorriso squashfs-tools mtools curl jq -y
-            git config --global --add safe.directory /work
-            export LINGMO_ARCH=${{ matrix.arch }}
-            export DEBIAN_FRONTEND=noninteractive
-            bash -i ./build.sh
             
       - name: Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch }}
+          name: Debian loong64 live cd
           path: ${{ github.workspace }}/images/*.iso
           compression-level: 0
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
