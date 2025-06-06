@@ -47,3 +47,11 @@ wireless-tools
 # Initramfs
 initramfs-tools
 
+#Section: Live system components
+live-boot
+live-config
+live-config-systemd
+user-setup
+live-tools
+eject
+#Alt: installation-birthday

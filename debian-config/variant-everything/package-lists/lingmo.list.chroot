@@ -26,8 +26,7 @@ htop
 # Graphical desktops
 kde-standard
 
-# Live configs
-live-boot
+# Live apps configs
 calamares
 calamares-settings-debian
 
