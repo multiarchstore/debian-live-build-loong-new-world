@@ -30,8 +30,11 @@ image_name() {
 
 live_image_name() {
 	case "$DEBIAN_ARCH" in
-	i386 | amd64 | arm64 | loong64)
+	i386 | amd64 | arm64)
 		echo "live-image-$DEBIAN_ARCH.hybrid.iso"
+		;;
+	loong64)
+		echo "live-image-$DEBIAN_ARCH.iso"
 		;;
 	armel | armhf)
 		echo "live-image-$DEBIAN_ARCH.img"
