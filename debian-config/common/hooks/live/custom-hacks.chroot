@@ -42,6 +42,7 @@ do
 done
 
 # Remove unwanted packages 
+apt-get remove --purge libdvd-pkg
 
 # remove package list cache
 apt clean

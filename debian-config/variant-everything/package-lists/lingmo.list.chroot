@@ -24,9 +24,13 @@ zsh-syntax-highlighting
 htop
 
 # Graphical desktops
+task-kde-desktop
 kde-full
 sddm
 kwin-x11
+kinfocenter
+konsole
+kate
 
 # Live apps configs
 calamares
