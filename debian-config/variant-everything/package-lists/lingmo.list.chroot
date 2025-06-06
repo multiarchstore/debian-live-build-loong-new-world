@@ -26,6 +26,7 @@ htop
 # Graphical desktops
 task-kde-desktop
 kde-full
+plasma-workspace-wayland
 sddm
 kwin-x11
 kinfocenter
@@ -34,7 +35,7 @@ kate
 
 # Live apps configs
 calamares
-calamares-settings-debian
+calamares-settings-debian-loong
 
 plymouth
 
