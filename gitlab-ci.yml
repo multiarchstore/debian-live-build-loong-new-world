@@ -1,0 +1,35 @@
+---
+include:
+  - https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/salsa-ci.yml
+  - https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/pipeline-jobs.yml
+
+variables:
+  SALSA_CI_DISABLE_BUILD_PACKAGE_ANY: 1
+  SALSA_CI_DISABLE_BUILD_PACKAGE_I386: 1
+  SALSA_CI_DISABLE_MISSING_BREAKS: 1
+
+.lb-build:
+  stage: test
+  script:
+    - apt-get update
+    - wget https://salsa.debian.org/-/project/100777/uploads/d513b2c78c2412c7bfd33651eaced2d7/live-build_20250605_all.deb -O live-build.deb
+    - apt-get install -y ./live-build.deb
+    - rm live-build.deb
+    - apt-get install -y qemu-user binfmt-support
+    - lb --version
+    # We need to stay within the maximum limit for artifacts on Salsa (250M),
+    # so disable a few things
+    - ./build.sh --arch ${BUILD_ARCH}
+  artifacts:
+    when: always
+    paths:
+      - ${WORKING_DIR}/images/*
+  needs:
+    - job: build
+      artifacts: true
+
+ISO loong64:
+  extends:
+    - .lb-build
+  variables:
+    BUILD_ARCH: 'loong64'
