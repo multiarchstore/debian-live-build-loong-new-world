@@ -163,7 +163,7 @@ lb config noauto \
 	--debootstrap-options "--include=apt-transport-https,ca-certificates,openssl,debian-archive-keyring,debian-ports-archive-keyring --keyring=$debian_keyring" \
 	--keyring-packages "debian-archive-keyring debian-ports-archive-keyring" \
 	--apt-recommends false \
-	--apt-options "-o DPkg::Options::=\"--force-confnew\" -y" \
+	--apt-options "-o Acquire::Check-Valid-Until=false -o DPkg::Options::=\"--force-confnew\" -y" \
 	--updates false \
 	--backports false \
 	--source false \

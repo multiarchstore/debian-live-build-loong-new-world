@@ -1,0 +1,3 @@
+// Disable valid until checking in apt
+// https://snapshot.debian.org/
+Acquire::Check-Valid-Until "false";
