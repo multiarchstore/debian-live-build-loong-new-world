@@ -24,7 +24,9 @@ zsh-syntax-highlighting
 htop
 
 # Graphical desktops
-kde-standard
+kde-full
+sddm
+kwin-x11
 
 # Live apps configs
 calamares
