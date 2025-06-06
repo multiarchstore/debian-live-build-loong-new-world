@@ -24,12 +24,12 @@ zsh-syntax-highlighting
 htop
 
 # Graphical desktops
-task-kde-desktop
 kde-full
 sddm
 kinfocenter
 konsole
 kate
+plasma-systemmonitor
 
 # Live apps configs
 calamares
