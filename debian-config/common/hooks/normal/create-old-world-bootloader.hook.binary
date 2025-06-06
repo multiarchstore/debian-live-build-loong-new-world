@@ -2,4 +2,4 @@
 
 # Copy the bootloader for the old world
 
-cp -rv EFI/bootloongarch64.efi EFI/bootloongarch.efi
+cp -v EFI/boot/bootloongarch64.efi EFI/boot/bootloongarch.efi
