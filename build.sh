@@ -14,7 +14,7 @@ TARGET_DIR="$(dirname $0)/images"
 TARGET_SUBDIR=""
 SUDO="sudo"
 VERBOSE="false"
-DEBUG=""
+DEBUG="true"
 HOST_ARCH=$(dpkg --print-architecture)
 
 image_name() {

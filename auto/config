@@ -98,13 +98,13 @@ case "$arch" in
 	lb_opts="$lb_opts --linux-flavours 686-pae"
     ;;
     arm64)
-	lb_opts="$lb_opts --bootloaders grub-efi --uefi-secure-boot disable"
+	lb_opts="$lb_opts --binary-images hdd --binary-filesystem ext4 --bootloaders grub-efi --uefi-secure-boot disable"
     ;;
     armel|armhf)
 	lb_opts="$lb_opts --binary-images hdd --binary-filesystem ext4 --chroot-filesystem none"
     ;;
 	loong64)
-	lb_opts="$lb_opts --bootloaders grub-efi --uefi-secure-boot disable"
+	lb_opts="$lb_opts --binary-images iso --binary-filesystem ext4 --bootloaders grub-efi --uefi-secure-boot disable"
 	if [ "$country_code" == "CN" ]; then
 		public_debian_mirror=http://mirrors.aliyun.com/debian-ports
 		debian_mirror=http://mirrors.aliyun.com/debian-ports
@@ -165,14 +165,12 @@ lb config noauto \
 	--source false \
 	--firmware-binary true \
 	--firmware-chroot true \
-	--uefi-secure-boot disable \
     --initramfs live-boot \
 	--mirror-bootstrap "$debian_mirror" \
 	--mirror-debian-installer "$debian_mirror" \
 	--mirror-binary "$public_debian_mirror" \
-	--iso-application "Debian GNU/Linux" \
+	--iso-application "Debian Live" \
 	--iso-publisher "Elysia" \
-	--iso-volume "Lingmo Live" \
 	--linux-packages "linux-image-6.12.28 linux-headers-6.12.28" \
 	--linux-flavours "loong64-desktop-rolling" \
 	--memtest none \
