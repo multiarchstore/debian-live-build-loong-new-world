@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Download and install spark-store
+
+curl -fsSL -o /tmp/spark-store.deb https://gitee.com/spark-store-project/spark-store/releases/download/4.7.0/spark-store_4.7.0-SID1_loong64.deb
+
+apt install -y /tmp/spark-store.deb
+
+rm /tmp/spark-store.deb

@@ -183,3 +183,7 @@ live-build
 #Alt: fastboot
 #scrcpy # sid only
 #gplaycli # sid only
+
+# Web commands
+curl
+wget

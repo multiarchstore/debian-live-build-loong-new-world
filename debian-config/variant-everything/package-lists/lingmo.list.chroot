@@ -31,8 +31,7 @@ plymouth
 
 
 # Some applications
-firefox
-firefox-l10n-zh-cn
+epiphany-browser
 
 # Input Methods
 fcitx5
