@@ -49,8 +49,12 @@ initramfs-tools
 
 #Section: Live system components
 live-boot
+live-boot-doc
 live-config
+live-config-doc
 live-config-systemd
+live-tesk-localisation
+live-tesk-recommended
 user-setup
 live-tools
 eject

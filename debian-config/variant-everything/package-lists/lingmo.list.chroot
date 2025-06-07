@@ -23,15 +23,6 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 htop
 
-# Graphical desktops
-task-kde-desktop
-kde-full
-sddm
-kinfocenter
-konsole
-kate
-plasma-systemmonitor
-
 # Live apps configs
 calamares
 calamares-settings-debian-loong
@@ -39,9 +30,9 @@ calamares-settings-debian-loong
 plymouth
 
 
-# Lingmo applications
-# firefox-esr
-# firefox-esr-l10n-zh-cn
+# Some applications
+firefox
+firefox-l10n-zh-cn
 
 # Input Methods
 fcitx5

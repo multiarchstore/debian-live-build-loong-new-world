@@ -1,0 +1,24 @@
+# Graphical desktops
+task-kde-desktop
+sddm
+kinfocenter
+konsole
+kate
+plasma-systemmonitor
+
+# For display settings
+kscreen
+
+kde-config-fcitx	
+kde-config-fcitx5	
+kde-config-gtk-style
+kde-config-screenlocker
+kde-config-sddm	
+kde-config-updates	
+
+plasma-welcome
+
+sddm-theme-breeze	
+sddm-theme-debian-breeze	
+
+qml6-module-org-kde-networkmanager

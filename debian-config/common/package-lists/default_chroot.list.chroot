@@ -42,6 +42,10 @@ bluez
 pulseaudio-module-bluetooth
 pulseaudio
 
+# network
+network-manager
+network-manager-l10n
+
 # WLAN
 hostapd
 wpagui
@@ -53,3 +57,8 @@ packagekit
 
 # OpenSSH
 openssh-server
+
+# Time tools
+util-linux-extra
+
+pkexec
