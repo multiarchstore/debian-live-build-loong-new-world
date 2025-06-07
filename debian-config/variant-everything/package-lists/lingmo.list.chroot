@@ -40,3 +40,7 @@ fcitx5-chinese-addons
 
 # CJK Fonts
 fonts-noto-cjk
+
+# liblol
+liblol-dkms
+liblol

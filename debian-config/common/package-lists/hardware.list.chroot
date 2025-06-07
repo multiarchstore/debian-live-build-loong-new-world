@@ -45,10 +45,10 @@ broadcom-sta-dkms
 initramfs-tools
 
 #Section: Wireless
-#Description: blueman
-blueman
+#Description: bluedevil
+bluedevil
 bluetooth
-blueman
+bluez
 wireless-regdb
 wireless-tools
 
