@@ -53,8 +53,8 @@ live-boot-doc
 live-config
 live-config-doc
 live-config-systemd
-live-tesk-localisation
-live-tesk-recommended
+live-task-localisation
+live-task-recommended
 user-setup
 live-tools
 eject
