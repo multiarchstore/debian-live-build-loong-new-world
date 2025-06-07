@@ -9,6 +9,12 @@ plasma-systemmonitor
 # For display settings
 kscreen
 
+kwin-x11
+kwin-wayland
+
+qml6-module-org-kde-networkmanager
+qml6-module-org-kde-bluezqt
+
 kde-config-fcitx	
 kde-config-fcitx5	
 kde-config-gtk-style
@@ -21,4 +27,8 @@ plasma-welcome
 sddm-theme-breeze	
 sddm-theme-debian-breeze	
 
-qml6-module-org-kde-networkmanager
+kde-style-breeze
+kde-style-breeze-qt5
+breeze-gtk-theme
+
+extra-xdg-menus

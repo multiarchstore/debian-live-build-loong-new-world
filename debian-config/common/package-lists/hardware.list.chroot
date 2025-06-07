@@ -41,11 +41,29 @@ firmware-zd1211
 broadcom-sta-dkms
 #endif
 
-# wifi
-wireless-tools
-
 # Initramfs
 initramfs-tools
+
+#Section: Wireless
+#Description: blueman
+blueman
+bluetooth
+blueman
+wireless-regdb
+wireless-tools
+
+#Section: Firewall
+#Description: gufw
+ufw
+gufw
+iptables
+#Alt: ferm
+#Alt: iptables-persistent
+#Alt: firehol
+#Alt: fail2ban
+#Alt: ipset-persistent
+#Alt: crowdsec
+#Alt: opensnitch
 
 #Section: Live system components
 live-boot
