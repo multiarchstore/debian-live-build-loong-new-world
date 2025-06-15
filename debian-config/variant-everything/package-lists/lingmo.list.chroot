@@ -43,3 +43,6 @@ fonts-noto-cjk
 # liblol
 liblol-dkms
 liblol
+
+# Disk
+gparted
