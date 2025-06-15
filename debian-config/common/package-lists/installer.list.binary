@@ -20,9 +20,9 @@ shim-signed-common
 shim-signed
 #endif
 #if ARCHITECTURES loong64
-grub-efi-loong64-bin
-grub-efi-loong64
-grub-efi-loong64-unsigned
+grub-efi-loong64-bin=2.12-7deepin3 
+grub-efi-loong64=2.12-7deepin3
+grub-efi-loong64-unsigned=2.12-7deepin3
 mokutil
 #endif 
 
