@@ -24,14 +24,14 @@ zsh-syntax-highlighting
 htop
 
 # Live apps configs
-calamares
 calamares-settings-debian-loong
 
 plymouth
 
 
 # Some applications
-epiphany-browser
+firefox
+firefox-l10n-zh-cn
 
 # Input Methods
 fcitx5

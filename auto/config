@@ -106,15 +106,11 @@ case "$arch" in
 	loong64)
 	lb_opts="$lb_opts --binary-images iso --binary-filesystem ext4 --bootloaders grub-efi --uefi-secure-boot disable"
 	if [ "$country_code" == "CN" ]; then
-		#public_debian_mirror=http://mirrors.aliyun.com/debian-ports
-		#debian_mirror=http://mirrors.aliyun.com/debian-ports
-		public_debian_mirror=http://snapshot.debian.org/archive/debian-ports/20250605T195057Z
-		debian_mirror=http://snapshot.debian.org/archive/debian-ports/20250605T195057Z
+		public_debian_mirror=http://mirrors.aliyun.com/debian-ports
+		debian_mirror=http://mirrors.aliyun.com/debian-ports
 	else
-		#public_debian_mirror=http://deb.debian.org/debian-ports
-		#debian_mirror=http://deb.debian.org/debian-ports
-		public_debian_mirror=http://snapshot.debian.org/archive/debian-ports/20250605T195057Z
-		debian_mirror=http://snapshot.debian.org/archive/debian-ports/20250605T195057Z
+		public_debian_mirror=http://deb.debian.org/debian-ports
+		debian_mirror=http://deb.debian.org/debian-ports
 	fi
 	debian_keyring="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
 	;;
