@@ -34,3 +34,13 @@ kde-style-breeze-qt5
 breeze-gtk-theme
 
 extra-xdg-menus
+kdenetwork-filesharing
+desktop-file-utils
+kio-extras
+print-manager
+xdg-desktop-portal-kde
+colord-kde
+kde-config-tablet
+
+
+
