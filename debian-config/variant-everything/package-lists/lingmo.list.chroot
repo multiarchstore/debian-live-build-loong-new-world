@@ -41,7 +41,8 @@ fcitx5-chinese-addons
 fonts-noto-cjk
 
 # liblol
-liblol-dkms
+# If not using kernel from AOSC, you need to install liblol-dkms
+# liblol-dkms
 liblol
 
 # lat
