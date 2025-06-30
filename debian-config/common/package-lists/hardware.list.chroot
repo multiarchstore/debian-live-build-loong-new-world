@@ -77,3 +77,7 @@ user-setup
 live-tools
 eject
 #Alt: installation-birthday
+
+# Compress
+zstd
+xz-utils
