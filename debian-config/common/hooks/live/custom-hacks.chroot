@@ -27,7 +27,7 @@ if [ -x "$(which updatedb 2>/dev/null)" ]; then
 fi
 
 # Make sure the our custom grub is installed
-apt install -y grub-efi-loong64=2.12-7deepin3 grub-efi-loong64-bin=2.12-7deepin3 grub-efi-loong64-unsigned=2.12-7deepin3
+# apt install -y grub-efi-loong64=2.12-7deepin3 grub-efi-loong64-bin=2.12-7deepin3 grub-efi-loong64-unsigned=2.12-7deepin3
 
 # Mark kernel related packages on hold so that they are not upgraded in
 # the live system
