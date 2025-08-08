@@ -108,13 +108,13 @@ case "$arch" in
 	if [ "$country_code" == "CN" ]; then
 		# public_debian_mirror=http://mirrors.aliyun.com/debian-ports
 		# debian_mirror=http://mirrors.aliyun.com/debian-ports
-		public_debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250626T134754Z
-		debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250626T134754Z
+		public_debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250806T075344Z
+		debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250806T075344Z
 	else
 		# public_debian_mirror=http://deb.debian.org/debian-ports
 		# debian_mirror=http://deb.debian.org/debian-ports		
-		public_debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250626T134754Z
-		debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250626T134754Z
+		public_debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250806T075344Z
+		debian_mirror=https://snapshot.debian.org/archive/debian-ports/20250806T075344Z
 	fi
 	debian_keyring="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
 	;;
